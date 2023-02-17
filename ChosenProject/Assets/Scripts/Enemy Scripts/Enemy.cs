@@ -10,23 +10,21 @@ public class Enemy : MonoBehaviour
     public LayerMask playerMask;
 
     public EnemyMovement movement;
+    public EnemyVision vision;
+    public EnemyRadar radar;
 
     void Awake()
     {
         movement.enemy = this;
+        provoked = false;
+        vision.enemy = this;
+        radar.enemy = this;
     }
     void Update()
     {
-        Vision();
-        if (spotPlayer)
-        {
-            provoked = true;
-        }
+        
     }
-    public void Vision()
-    {
-        spotPlayer = Physics.Raycast(eye.position, transform.forward, 5f, playerMask);
-    }
+    
 }
  public abstract class EnemyBehaviour : MonoBehaviour
 {

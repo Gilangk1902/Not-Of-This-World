@@ -1,38 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class EnemyMovement : EnemyBehaviour
 {
-    Transform runTo;
+    public Vector3 runTo;
     public Transform playerLocation;
-    Transform lastSeenPlayerLocation;
+    Vector3 lastSeenPlayerLocation;
     Vector3 randomRunTo;
+    public NavMeshAgent agent;
+    
     void Start()
     {
-        runTo.position = transform.position;    
+        runTo = transform.position;    
     }
     void Update()
     {
         FindPlayerLocation();
-        WalkTo(5f);
+        if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange){
+            WalkTo();
+        }
+        else if(enemy.radar.inAttackRange){
+            agent.destination = transform.position;
+        }
     }
-    public void WalkTo(float speed)
+    public void WalkTo()
     {
         if (enemy.provoked)
         {
-            runTo.position = lastSeenPlayerLocation.position;
-            gameObject.transform.position = runTo.position;
+            runTo = lastSeenPlayerLocation;
+            agent.destination = runTo;
         }
         else
         {
-            if(transform.position == runTo.position)
+            if(transform.position == runTo)
             {
                 Invoke("SetRandomPosition", 3f);
             }
             else
             {
-                gameObject.transform.position = runTo.position;
+                agent.destination = runTo;
             }
         }
     }
@@ -44,14 +51,16 @@ public class EnemyMovement : EnemyBehaviour
         z = Random.Range(-10, 10);
 
         randomRunTo = new Vector3(x,0,z);
-        runTo.position = randomRunTo;
+        runTo = randomRunTo;
     }
     
     public void FindPlayerLocation()
     {
         if (enemy.spotPlayer)
         {
-            lastSeenPlayerLocation.position = playerLocation.position;
+            lastSeenPlayerLocation = playerLocation.position;
         }
     }
+
+    
 }
