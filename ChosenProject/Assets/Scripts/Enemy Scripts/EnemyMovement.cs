@@ -9,6 +9,7 @@ public class EnemyMovement : EnemyBehaviour
     Vector3 lastSeenPlayerLocation;
     Vector3 randomRunTo;
     public NavMeshAgent agent;
+    public bool isMoving;
     
     void Start()
     {
@@ -17,30 +18,28 @@ public class EnemyMovement : EnemyBehaviour
     void Update()
     {
         FindPlayerLocation();
-        if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange){
-            WalkTo();
-        }
-        else if(enemy.radar.inAttackRange){
+        
+        if(enemy.radar.inAttackRange){
             agent.destination = transform.position;
+            enemy.anim.PlayIdle();
+        }
+        else{
+            WalkTo();
         }
     }
     public void WalkTo()
     {
+        agent.speed = 1f;
         if (enemy.provoked)
         {
-            runTo = lastSeenPlayerLocation;
+            runTo = playerLocation.position;
             agent.destination = runTo;
+            enemy.anim.PlayWalk();
         }
-        else
-        {
-            if(transform.position == runTo)
-            {
-                Invoke("SetRandomPosition", 3f);
-            }
-            else
-            {
-                agent.destination = runTo;
-            }
+        else{
+            runTo = transform.position;
+            agent.destination = runTo;
+            enemy.anim.PlayIdle();
         }
     }
     public void SetRandomPosition()

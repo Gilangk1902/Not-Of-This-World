@@ -9,26 +9,33 @@ public class EnemyVision : EnemyBehaviour
     private Vector3 direction;
     public float visionDistance;
     public bool allowChangeRotation;
+    public float timeSinceLastSeenPlayer;
     void Start(){
         allowChangeRotation = true;
+        timeSinceLastSeenPlayer = 0;
     }
     void Update()
     {
+        timeSinceLastSeenPlayer += Time.deltaTime;
+        
+        
         Vision();
-        if(enemy.provoked){
+        if(enemy.radar.inSpotRange || enemy.provoked){
             LookAt(enemy.movement.playerLocation.position);
         }
-        else{
-            
+        if(timeSinceLastSeenPlayer>3f){
+            enemy.provoked = false;
         }
     }
     
     public void Vision()
     {
-        enemy.spotPlayer = Physics.Raycast(enemy.eye.position, transform.forward, visionDistance, enemy.playerMask);
+        RaycastHit hitInfo;
+        enemy.spotPlayer = Physics.SphereCast(enemy.eye.position, 1f, transform.forward, out hitInfo, visionDistance, enemy.playerMask);
         if (enemy.spotPlayer)
         {
             enemy.provoked = true;
+            timeSinceLastSeenPlayer = 0f;
         }
     }
 
@@ -48,5 +55,22 @@ public class EnemyVision : EnemyBehaviour
         return new Quaternion(0,y,0,1);
     }
 
-    
+
+    bool randomIsSet = false;
+    public void RandomScanForPlayer(){
+        Quaternion lookRotation = new Quaternion();
+        if(timeSinceLastSeenPlayer >= 3f){
+            if(!randomIsSet){
+                lookRotation = SetRandomRotation();
+                randomIsSet = true;
+            }   
+            else{
+                Invoke("ResetRandomIsSet", 1.5f);
+            }
+            LookAt(lookRotation);
+        }
+    }
+    private void ResetRandomIsSet(){
+        randomIsSet = false;
+    }
 }
