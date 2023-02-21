@@ -5,6 +5,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public WeaponData data;
+    public WeaponData pistol;
+    public WeaponData AssaultRifle;
     public WeaponShooting shoot;
     public WeaponStatus status;
     public WeaponUI ui;

@@ -33,6 +33,7 @@ public class Movement : PlayerBehaviour
             controller.Move(moveVelocity*player.status.speed*Time.deltaTime);
         }
     }
+    
     public Vector3 jumpVelocity;
     public float gravity = -9.81f;
     int currentJump = 0;

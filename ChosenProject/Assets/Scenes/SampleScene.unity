@@ -209,6 +209,7 @@ MonoBehaviour:
   EnemyMask:
     serializedVersion: 2
     m_Bits: 128
+  fireRate: 0
 --- !u!114 &41405158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 450e339dd9f4afa468d3755cebe7877e, type: 2}
+  pistol: {fileID: 11400000, guid: 450e339dd9f4afa468d3755cebe7877e, type: 2}
+  AssaultRifle: {fileID: 11400000, guid: 3ded09f4dbd37a44095f216adbf7e38f, type: 2}
   shoot: {fileID: 41405157}
   status: {fileID: 41405160}
   ui: {fileID: 41405159}
@@ -255,6 +258,9 @@ MonoBehaviour:
   weapon: {fileID: 0}
   ammoInMag: 0
   ammo: 0
+  isReloading: 0
+  currentWeapon: 0
+  prevWeapon: 0
 --- !u!1 &110250486
 GameObject:
   m_ObjectHideFlags: 0

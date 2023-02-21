@@ -7,9 +7,11 @@ public class WeaponShooting : WeaponBehaviour
     public Transform muzzleBarrel;
     public bool enable;
     public LayerMask EnemyMask;
-    float timeSinceLastShot;
+    public float timeSinceLastShot;
+    [HideInInspector] public float fireRate;
     void Start() {
         timeSinceLastShot = weapon.data.fireRate;    
+        fireRate = weapon.data.fireRate;
     }
     void Update()
     {
@@ -17,8 +19,8 @@ public class WeaponShooting : WeaponBehaviour
     }
 
     public void Shoot(){
-        if(weapon.status.ammoInMag > 0){
-            if(timeSinceLastShot > weapon.data.fireRate){
+        if(weapon.status.ammoInMag > 0 && !weapon.status.isReloading){
+            if(timeSinceLastShot > fireRate){
                 RaycastHit hit;
                 if(Physics.Raycast(muzzleBarrel.position, muzzleBarrel.forward, out hit)){
                     if(hit.transform.gameObject.layer == 7){
