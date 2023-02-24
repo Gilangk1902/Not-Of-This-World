@@ -13,7 +13,8 @@ public class EnemyMovement : EnemyBehaviour
     
     void Start()
     {
-        runTo = transform.position;    
+        runTo = transform.position;
+        agent.speed = enemy.data.movementSpeed;
     }
     void Update()
     {
@@ -29,7 +30,6 @@ public class EnemyMovement : EnemyBehaviour
     }
     public void WalkTo()
     {
-        agent.speed = 1f;
         if (enemy.provoked)
         {
             runTo = playerLocation.position;

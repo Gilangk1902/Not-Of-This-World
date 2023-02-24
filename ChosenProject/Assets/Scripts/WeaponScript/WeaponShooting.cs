@@ -30,6 +30,7 @@ public class WeaponShooting : WeaponBehaviour
                     }
                 }
                 weapon.status.ammoInMag--;
+                weapon.data.ammoInMag--;
                 timeSinceLastShot = 0f;
             }
         }

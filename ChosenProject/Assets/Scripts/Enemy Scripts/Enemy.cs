@@ -10,11 +10,13 @@ public class Enemy : MonoBehaviour
     public float health;
     public LayerMask playerMask;
 
+    public EnemyData data;
     public EnemyMovement movement;
     public EnemyVision vision;
     public EnemyRadar radar;
     public EnemyAnimator anim;
     public EnemyStatus status;
+    public EnemyAttack attack;
 
     void Awake()
     {
@@ -25,6 +27,7 @@ public class Enemy : MonoBehaviour
         anim.enemy = this;
         health = 100f;
         status.enemy = this;
+        attack.enemy = this;
     }
     void Update()
     {
@@ -37,6 +40,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     
 }
  public abstract class EnemyBehaviour : MonoBehaviour

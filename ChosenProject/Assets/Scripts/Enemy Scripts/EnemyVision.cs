@@ -7,7 +7,6 @@ public class EnemyVision : EnemyBehaviour
     public float rotationSpeed;
     private Quaternion lookRotation;
     private Vector3 direction;
-    public float visionDistance;
     public bool allowChangeRotation;
     public float timeSinceLastSeenPlayer;
     void Start(){
@@ -31,7 +30,7 @@ public class EnemyVision : EnemyBehaviour
     public void Vision()
     {
         RaycastHit hitInfo;
-        enemy.spotPlayer = Physics.SphereCast(enemy.eye.position, 1f, transform.forward, out hitInfo, visionDistance, enemy.playerMask);
+        enemy.spotPlayer = Physics.SphereCast(enemy.eye.position, 2, transform.forward, out hitInfo, enemy.data.visionRange, enemy.playerMask);
         if (enemy.spotPlayer)
         {
             enemy.provoked = true;

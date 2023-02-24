@@ -12,7 +12,9 @@ public class WeaponData : ScriptableObject
     public float maxDistance;
     
     public int maxAmmo;
+    public int ammoInInventory;
     public int magSize;
+    public int ammoInMag;
     public float fireRate;
     public float reloadTime;
     public float bulletSpread;

@@ -12,8 +12,8 @@ public class WeaponStatus : WeaponBehaviour
     public int prevWeapon;
 
     void Start() {
-        ammoInMag = weapon.data.magSize;
-        ammo = weapon.data.maxAmmo;    
+        ammoInMag = weapon.data.ammoInMag;
+        ammo = weapon.data.ammoInMag;    
     }
     void Update(){
         Reload();
@@ -51,15 +51,15 @@ public class WeaponStatus : WeaponBehaviour
     public void Switch(){
         if(currentWeapon==0){  
             weapon.data = weapon.pistol;
-            ammoInMag = weapon.data.magSize;
-            ammo = weapon.data.maxAmmo;
+            ammoInMag = weapon.data.ammoInMag;
+            ammo = weapon.data.ammoInInventory;
             weapon.shoot.fireRate = weapon.data.fireRate;
             weapon.shoot.timeSinceLastShot = weapon.shoot.fireRate;
         }
         else if(currentWeapon==1){
             weapon.data = weapon.AssaultRifle;
-            ammoInMag = weapon.data.magSize;
-            ammo = weapon.data.maxAmmo;
+            ammoInMag = weapon.data.ammoInMag;
+            ammo = weapon.data.ammoInInventory;
             weapon.shoot.fireRate = weapon.data.fireRate;
             weapon.shoot.timeSinceLastShot = weapon.shoot.fireRate;
         }
