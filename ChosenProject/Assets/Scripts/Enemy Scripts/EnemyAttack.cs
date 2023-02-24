@@ -12,10 +12,14 @@ public class EnemyAttack : EnemyBehaviour
     private void Start()
     {
         timeSinceLastAttack = enemy.data.coolDownAttk;
+        atkAllowed = true;
     }
     void Update()
     {
         timeSinceLastAttack += Time.deltaTime;
+        Attack();
+        AtkReset();
+        Debug.Log(timeSinceLastAttack);
     }
 
     public bool IsAtkAllowed()
@@ -24,30 +28,46 @@ public class EnemyAttack : EnemyBehaviour
         {
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
     }
     public void Attack()
     {
-        if(IsAtkAllowed())
+        if(enemy.radar.inAttackRange && atkAllowed)
         {
+            Debug.Log("atk is allowrd");
             StartCoroutine(WaitAndAttack());
-            atkAllowed = false;
         }
     }
+
+    bool hasHit = false;
     IEnumerator WaitAndAttack()
     {
         for(int i=0;i<enemy.data.numOfAttackPerAtk;i++)
         {
+            hasHit = false;
             yield return new WaitForSeconds(enemy.data.delayBetweenAtk);
+            Debug.Log("sex");
 
             Collider[] hit = Physics.OverlapSphere(transform.position, 2f, enemy.playerMask);
             for (int j = 0; j < hit.Length; j++)
             {
-                if (hit[j].gameObject.layer == 6)
+                if (hit[j].gameObject.layer == 6 && !hasHit)
                 {
-                    hit[j].GetComponent<PlayerStatus>().TakeDamage(50);
+                    hit[j].GetComponent<PlayerStatus>().TakeDamage(enemy.data.damage);
+                    hasHit = true;
                 }
             }
         }   
+        atkAllowed = false;
+        timeSinceLastAttack = 0;
+    }
+
+    void AtkReset(){
+        if(timeSinceLastAttack > enemy.data.coolDownAttk){
+            atkAllowed = true;
+            hasHit = false;
+        }
     }
 }

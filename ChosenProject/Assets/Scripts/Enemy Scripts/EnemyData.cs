@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName ="Enemy", menuName ="Enemy/Data")]
 public class EnemyData : ScriptableObject
 {
     public float visionRange;
-    public float damage;
+    public int damage;
     public float health;
     public float coolDownAttk;
     public float armor;

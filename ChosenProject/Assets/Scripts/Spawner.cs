@@ -13,6 +13,7 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         spawnCounter = 0;    
+        obj = data.objectToSpawn;
     }
     void Update()
     {

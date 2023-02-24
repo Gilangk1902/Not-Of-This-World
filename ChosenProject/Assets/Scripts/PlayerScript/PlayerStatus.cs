@@ -13,7 +13,7 @@ public class PlayerStatus : PlayerBehaviour
     void Start()
     {
         health = data.health;
-        speed = data.health;
+        speed = data.speed;
         jumpHeight = data.jumpHeight;
         maxJump = data.maxJump;
     }

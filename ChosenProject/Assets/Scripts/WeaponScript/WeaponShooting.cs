@@ -19,7 +19,7 @@ public class WeaponShooting : WeaponBehaviour
     }
 
     public void Shoot(){
-        if(weapon.status.ammoInMag > 0 && !weapon.status.isReloading){
+        if(weapon.data.ammoInMag > 0 && !weapon.status.isReloading){
             if(timeSinceLastShot > fireRate){
                 RaycastHit hit;
                 if(Physics.Raycast(muzzleBarrel.position, muzzleBarrel.forward, out hit)){
@@ -29,7 +29,6 @@ public class WeaponShooting : WeaponBehaviour
                         Debug.Log("Hit");
                     }
                 }
-                weapon.status.ammoInMag--;
                 weapon.data.ammoInMag--;
                 timeSinceLastShot = 0f;
             }

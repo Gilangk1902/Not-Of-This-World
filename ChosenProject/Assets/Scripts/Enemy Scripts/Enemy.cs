@@ -32,7 +32,6 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Die();
-        Debug.Log(health);
     }
 
     void Die(){

@@ -12,8 +12,8 @@ public class WeaponStatus : WeaponBehaviour
     public int prevWeapon;
 
     void Start() {
-        ammoInMag = weapon.data.ammoInMag;
-        ammo = weapon.data.ammoInMag;    
+        weapon.data.ammoInInventory = weapon.data.maxAmmo;
+        weapon.data.ammoInMag = weapon.data.magSize;
     }
     void Update(){
         Reload();
@@ -27,8 +27,8 @@ public class WeaponStatus : WeaponBehaviour
         }
     }
     public void FillAmmo(){
-        ammo = ammo - (weapon.data.magSize - ammoInMag);
-        ammoInMag = weapon.data.magSize;
+        weapon.data.ammoInInventory -= (weapon.data.magSize-weapon.data.ammoInMag);
+        weapon.data.ammoInMag = weapon.data.magSize;
         isReloading = false;
     }
     private KeyCode[] keyCodes = {
@@ -51,17 +51,9 @@ public class WeaponStatus : WeaponBehaviour
     public void Switch(){
         if(currentWeapon==0){  
             weapon.data = weapon.pistol;
-            ammoInMag = weapon.data.ammoInMag;
-            ammo = weapon.data.ammoInInventory;
-            weapon.shoot.fireRate = weapon.data.fireRate;
-            weapon.shoot.timeSinceLastShot = weapon.shoot.fireRate;
         }
         else if(currentWeapon==1){
             weapon.data = weapon.AssaultRifle;
-            ammoInMag = weapon.data.ammoInMag;
-            ammo = weapon.data.ammoInInventory;
-            weapon.shoot.fireRate = weapon.data.fireRate;
-            weapon.shoot.timeSinceLastShot = weapon.shoot.fireRate;
         }
     }
 }

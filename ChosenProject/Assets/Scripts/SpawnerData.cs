@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerData : MonoBehaviour
+[CreateAssetMenu(fileName ="Spawner", menuName ="Spawner/Data")]
+
+public class SpawnerData : ScriptableObject
 {
     public GameObject objectToSpawn;
     public int maxNumOfSpawn;

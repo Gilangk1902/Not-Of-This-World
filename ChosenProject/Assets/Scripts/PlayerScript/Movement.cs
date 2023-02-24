@@ -5,19 +5,14 @@ using UnityEngine;
 public class Movement : PlayerBehaviour
 {
     public CharacterController controller;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
         PlayerMovement();
         Jump();
         Gravity();
-        
+        Sprint();
+        Crouch();
     }
     
     Vector3 moveVelocity;
@@ -31,6 +26,24 @@ public class Movement : PlayerBehaviour
         }
         else if((x==0 || z == 0) && !(x!=0 && z!=0)){
             controller.Move(moveVelocity*player.status.speed*Time.deltaTime);
+        }
+    }
+
+    public void Sprint(){
+        if(Input.GetKeyDown(KeyCode.LeftShift)){
+            player.status.speed = player.status.speed*2.4f;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift)){
+            player.status.speed = player.status.data.speed;
+        }
+    }
+
+    public void Crouch(){
+        if(Input.GetKeyDown(KeyCode.LeftControl)){
+            transform.localScale = new Vector3(0.5f,0.5f, 0.5f);
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftControl)){
+            transform.localScale = new Vector3(1,1f, 1);
         }
     }
     
