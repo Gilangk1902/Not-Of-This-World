@@ -14,12 +14,13 @@ public class EnemyMovement : EnemyBehaviour
     void Start()
     {
         runTo = transform.position;
+        playerLocation = GameObject.Find("Player").transform;
         agent.speed = enemy.data.movementSpeed;
     }
     void Update()
     {
         FindPlayerLocation();
-        
+        Gravity();
         if(enemy.radar.inAttackRange){
             agent.destination = transform.position;
             enemy.anim.PlayIdle();
@@ -61,5 +62,19 @@ public class EnemyMovement : EnemyBehaviour
         }
     }
 
-    
+    Vector3 velocity;
+    float gravity = -9.807f;
+    void Gravity()
+    {
+        if (!agent.enabled && !enemy.isGrounded)
+        {
+            velocity.y += gravity/4 * Time.deltaTime;
+            transform.position += new Vector3(0, velocity.y, 0);
+        }
+        else if (enemy.isGrounded)
+        {
+            velocity.y = 0f;
+            agent.enabled = true;
+        }
+    }
 }

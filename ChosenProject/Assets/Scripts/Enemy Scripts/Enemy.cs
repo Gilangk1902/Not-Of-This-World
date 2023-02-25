@@ -5,9 +5,12 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform eye;
+    public Transform feet;
     public bool spotPlayer;
     public bool provoked;
+    public bool isGrounded;
     public float health;
+    public LayerMask groundMask;
     public LayerMask playerMask;
 
     public EnemyData data;
@@ -28,10 +31,13 @@ public class Enemy : MonoBehaviour
         health = 100f;
         status.enemy = this;
         attack.enemy = this;
+        movement.agent.enabled = false;
+        isGrounded = false;
     }
     void Update()
     {
         Die();
+        isGrounded = Physics.CheckSphere(feet.position, .4f, groundMask);
     }
 
     void Die(){

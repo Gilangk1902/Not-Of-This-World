@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 8327556184416520118, guid: aae885481559ff542bf61882e3477834, type: 3}
   maxNumOfSpawn: 2
-  radius: 5
+  radius: 25

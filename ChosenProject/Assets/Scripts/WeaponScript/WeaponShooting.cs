@@ -34,4 +34,16 @@ public class WeaponShooting : WeaponBehaviour
             }
         }
     }
+
+    public void Secondary()
+    {
+        if(weapon.data.name == "AR")
+        {
+            //Grenade Launncher
+        }
+        else if(weapon.data.name == "Pistol")
+        {
+            //AIMBOT
+        }
+    }
 }

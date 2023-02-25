@@ -10,6 +10,8 @@ public class WeaponStatus : WeaponBehaviour
     public bool isReloading;
     public int currentWeapon;
     public int prevWeapon;
+    public GameObject pistol;
+    public GameObject AR;
 
     void Start() {
         weapon.data.ammoInInventory = weapon.data.maxAmmo;
@@ -51,9 +53,13 @@ public class WeaponStatus : WeaponBehaviour
     public void Switch(){
         if(currentWeapon==0){  
             weapon.data = weapon.pistol;
+            pistol.SetActive(true);
+            AR.SetActive(false);
         }
         else if(currentWeapon==1){
             weapon.data = weapon.AssaultRifle;
+            pistol.SetActive(false);
+            AR.SetActive(true);
         }
     }
 }
