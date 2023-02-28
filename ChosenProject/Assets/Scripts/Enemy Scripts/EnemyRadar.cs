@@ -9,8 +9,8 @@ public class EnemyRadar : EnemyBehaviour
     public bool inSpotRange;
 
     void Update(){
-        inChaseRange = Physics.CheckSphere(transform.position, 15f, enemy.playerMask);
-        inAttackRange = Physics.CheckSphere(transform.position, 2f, enemy.playerMask);
-        inSpotRange = Physics.CheckSphere(transform.position, 15f, enemy.playerMask);
+        inChaseRange = Physics.CheckSphere(transform.position, enemy.data.inChaseRange, enemy.playerMask);
+        inAttackRange = Physics.CheckSphere(transform.position, enemy.data.inAttackRange, enemy.playerMask);
+        inSpotRange = Physics.CheckSphere(transform.position, enemy.data.inSpotRange, enemy.playerMask);
     }
 }

@@ -8,18 +8,19 @@ public class EnemyAttack : EnemyBehaviour
     float timeSinceLastAttack;
     public Transform attackLoc;
     bool atkAllowed;
+    public bool isAttacking;
 
     private void Start()
     {
         timeSinceLastAttack = enemy.data.coolDownAttk;
         atkAllowed = true;
+        isAttacking = false;
     }
     void Update()
     {
         timeSinceLastAttack += Time.deltaTime;
         Attack();
         AtkReset();
-        Debug.Log(timeSinceLastAttack);
     }
 
     public bool IsAtkAllowed()
@@ -36,38 +37,56 @@ public class EnemyAttack : EnemyBehaviour
     {
         if(enemy.radar.inAttackRange && atkAllowed)
         {
-            Debug.Log("atk is allowrd");
-            StartCoroutine(WaitAndAttack());
+            if(enemy.data.type == "Melee"){
+                StartCoroutine(Melee_WaitAndAttack());
+            }
+            else if(enemy.data.type == "Ranged"){
+                StartCoroutine(Ranged_WaitAndAttack());
+            }
         }
     }
 
-    bool hasHit = false;
-    IEnumerator WaitAndAttack()
+    bool hasHit_melee;
+    IEnumerator Melee_WaitAndAttack()
     {
-        for(int i=0;i<enemy.data.numOfAttackPerAtk;i++)
-        {
-            hasHit = false;
-            yield return new WaitForSeconds(enemy.data.delayBetweenAtk);
-            Debug.Log("sex");
+        isAttacking = true;
+        
+        hasHit_melee = false;
+        yield return new WaitForSeconds(enemy.data.delayAtk);
 
-            Collider[] hit = Physics.OverlapSphere(transform.position, 2f, enemy.playerMask);
-            for (int j = 0; j < hit.Length; j++)
+        Collider[] hit = Physics.OverlapSphere(attackLoc.position, 2f, enemy.playerMask);
+        for (int j = 0; j < hit.Length; j++)
+        {
+            if (hit[j].gameObject.layer == 6 && !hasHit_melee)
             {
-                if (hit[j].gameObject.layer == 6 && !hasHit)
-                {
-                    hit[j].GetComponent<PlayerStatus>().TakeDamage(enemy.data.damage);
-                    hasHit = true;
-                }
+                hit[j].GetComponent<PlayerStatus>().TakeDamage(enemy.data.damage);
+                hasHit_melee = true;
             }
-        }   
+        }
         atkAllowed = false;
+        isAttacking = false;
         timeSinceLastAttack = 0;
+    }
+
+    bool hasInstantiate = false;
+    IEnumerator Ranged_WaitAndAttack(){
+        isAttacking = true;
+        yield return new WaitForSeconds(enemy.data.delayAtk);
+        if(!hasInstantiate){
+            Instantiate(enemy.data.bullet, attackLoc.position, attackLoc.rotation); 
+            hasInstantiate = true;
+        }
+
+        atkAllowed = false;
+        isAttacking = false;
+        timeSinceLastAttack = 0;
+        
     }
 
     void AtkReset(){
         if(timeSinceLastAttack > enemy.data.coolDownAttk){
             atkAllowed = true;
-            hasHit = false;
+            hasInstantiate = false;
         }
     }
 }

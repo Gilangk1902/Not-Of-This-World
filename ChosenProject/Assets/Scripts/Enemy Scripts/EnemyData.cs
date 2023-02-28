@@ -6,12 +6,16 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public float visionRange;
+    public float inChaseRange;
+    public float inAttackRange;
+    public float inSpotRange;
     public int damage;
     public float health;
-    public float coolDownAttk;
-    public float armor;
     public float movementSpeed;
-    public float numOfAttackPerAtk;
-    public float delayBetweenAtk;
+    public float coolDownAttk;
+    public float burstSize;
+    public float delayAtk;
+    public string type;
+    public GameObject bullet;
 
 }

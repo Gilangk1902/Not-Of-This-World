@@ -1522,7 +1522,7 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 64
-  data: {fileID: 11400000, guid: d87c9e5b42786b449b78a84235da05fe, type: 2}
+  data: {fileID: 11400000, guid: 33dfd7649547b594baecfec9d358572e, type: 2}
 --- !u!1 &1409924981
 GameObject:
   m_ObjectHideFlags: 0

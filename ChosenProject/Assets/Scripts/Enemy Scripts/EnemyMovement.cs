@@ -26,7 +26,13 @@ public class EnemyMovement : EnemyBehaviour
             enemy.anim.PlayIdle();
         }
         else{
-            WalkTo();
+            if(!enemy.attack.isAttacking){
+                WalkTo();
+            }
+            else if(enemy.attack.isAttacking){
+                agent.destination = transform.position;
+                enemy.anim.PlayIdle();
+            }
         }
     }
     public void WalkTo()

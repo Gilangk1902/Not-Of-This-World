@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Slave
   m_EditorClassIdentifier: 
   visionRange: 12
+  inChaseRange: 15
+  inAttackRange: 2
+  inSpotRange: 15
   damage: 20
   health: 100
   coolDownAttk: 4
   armor: 1
   movementSpeed: 3
   numOfAttackPerAtk: 1
-  delayBetweenAtk: 0.5
+  delayBetweenAtk: 1
+  type: Melee
+  bullet: {fileID: 0}
