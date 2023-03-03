@@ -30,11 +30,15 @@ public class EnemyVision : EnemyBehaviour
     public void Vision()
     {
         RaycastHit hitInfo;
-        enemy.spotPlayer = Physics.SphereCast(enemy.eye.position, 2, transform.forward, out hitInfo, enemy.data.visionRange, enemy.playerMask);
+        enemy.spotPlayer = Physics.SphereCast(enemy.eye.position, 1f, transform.forward, out hitInfo, enemy.data.visionRange, enemy.playerMask);
         if (enemy.spotPlayer && enemy.radar.inChaseRange)
         {
             enemy.provoked = true;
             timeSinceLastSeenPlayer = 0f;
+        }
+        else
+        {
+            return;
         }
     }
 

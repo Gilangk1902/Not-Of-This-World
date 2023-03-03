@@ -5,16 +5,21 @@ using UnityEngine;
 public class PlayerCamera : PlayerBehaviour
 {
     public GameObject camera;
+    public bool enable;
     
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        enable = true;
     }
-        void Update()
+    void Update()
     {
-        CameraMovement();
+        if (enable)
+        {
+            CameraMovement();
+        }
     }
 
     public float lookSensitivity;
@@ -27,5 +32,13 @@ public class PlayerCamera : PlayerBehaviour
         xRotation = Mathf.Clamp(xRotation, -maxRotationUpward, maxRotationDownward);
 
         camera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+    }
+
+    public void CameraLockedOnTarget(Vector3 Target)
+    {
+        Vector3 direction;
+        direction = (Target-transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*lookSensitivity*5);
     }
 }

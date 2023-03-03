@@ -16,6 +16,27 @@ public class WeaponShooting : WeaponBehaviour
     void Update()
     {
         timeSinceLastShot += Time.deltaTime;
+
+        if (weapon.data.available && !weapon.status.isSwitching && !weapon.status.isReloading)
+        {
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Shoot();
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Secondary();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                weapon.status.Reload();
+            }
+        }
+
+        if (isLock)
+        {
+            AimLock();
+        }
     }
 
     public void Shoot(){
@@ -37,13 +58,56 @@ public class WeaponShooting : WeaponBehaviour
 
     public void Secondary()
     {
-        if(weapon.data.name == "AR")
+        if (weapon.data.name == "AR")
         {
             //Grenade Launncher
         }
-        else if(weapon.data.name == "Pistol")
+        else if (weapon.data.name == "Pistol")
         {
-            //AIMBOT
+            if (isLock)
+            {
+                AimLockRelease();
+            }
+            else if (!isLock)
+            {
+                AimLockTrigger();
+            }
         }
+    }
+
+    public float aimRadius;
+    public float aimDistance;
+    public bool isLock;
+    public PlayerCamera camera;
+    GameObject target;
+    public void AimLockTrigger()
+    {
+        //get enemy object position, with raycast, store in array
+        //rotate camera to...
+        RaycastHit hit;
+
+        //TODO  change to sphereCastAll
+        if(Physics.SphereCast(muzzleBarrel.position, aimRadius, muzzleBarrel.forward, out hit, aimDistance))
+        {
+            if(hit.transform.gameObject.layer == 7)
+            {
+                target = hit.transform.gameObject;
+                camera.enable = false;
+                isLock = true;
+                Debug.Log("lock");
+            }
+        }
+    }
+
+    public void AimLock()
+    {
+        camera.CameraLockedOnTarget(target.transform.position);
+    }
+
+    public void AimLockRelease()
+    {
+        camera.enable = true;
+        isLock = false;
+        Debug.Log("Release");
     }
 }

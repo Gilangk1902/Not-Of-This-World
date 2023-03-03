@@ -13,6 +13,9 @@ public class WeaponStatus : WeaponBehaviour
     public GameObject pistol;
     public GameObject AR;
 
+    public bool isSwitching;
+    public float timeSinceLastSwitch;
+
     void Start() {
         weapon.data.ammoInInventory = weapon.data.maxAmmo;
         weapon.data.ammoInMag = weapon.data.magSize;
@@ -20,6 +23,12 @@ public class WeaponStatus : WeaponBehaviour
     void Update(){
         Reload();
         SwitchingWeapon();
+
+        timeSinceLastSwitch += Time.deltaTime;
+        if(timeSinceLastSwitch > 3f)
+        {
+            isSwitching= false;
+        }
     }
 
     public void Reload(){
@@ -55,11 +64,15 @@ public class WeaponStatus : WeaponBehaviour
             weapon.data = weapon.pistol;
             pistol.SetActive(true);
             AR.SetActive(false);
+            timeSinceLastSwitch = 0;
+            isSwitching = true;
         }
         else if(currentWeapon==1){
             weapon.data = weapon.AssaultRifle;
             pistol.SetActive(false);
             AR.SetActive(true);
+            timeSinceLastSwitch = 0;
+            isSwitching = true;
         }
     }
 }

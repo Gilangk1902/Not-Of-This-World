@@ -18,14 +18,7 @@ public class Weapon : MonoBehaviour
     }
 
     void Update(){
-        if(data.available){
-            if(Input.GetKey(KeyCode.Mouse0)){
-                shoot.Shoot();
-            }
-            if(Input.GetKeyDown(KeyCode.R)){
-                status.Reload();
-            }
-        }
+        
     }
 }
 

@@ -14,6 +14,7 @@ public class EnemyData : ScriptableObject
     public float movementSpeed;
     public float coolDownAttk;
     public float burstSize;
+    public float burstDelay;
     public float delayAtk;
     public string type;
     public GameObject bullet;

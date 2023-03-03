@@ -3,90 +3,72 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+//u were trying to only startcoroutine onetime only, using bool oneTime
 public class EnemyAttack : EnemyBehaviour
 {
     float timeSinceLastAttack;
     public Transform attackLoc;
-    bool atkAllowed;
     public bool isAttacking;
+    public int ammo;
+    private bool oneTime;
 
     private void Start()
     {
         timeSinceLastAttack = enemy.data.coolDownAttk;
-        atkAllowed = true;
         isAttacking = false;
+        ammo = 5;
+        oneTime = false;
     }
     void Update()
     {
         timeSinceLastAttack += Time.deltaTime;
-        Attack();
-        AtkReset();
-    }
-
-    public bool IsAtkAllowed()
-    {
-        if (enemy.spotPlayer && enemy.radar.inAttackRange && timeSinceLastAttack > enemy.data.coolDownAttk && atkAllowed)
+        if (enemy.radar.inAttackRange && !oneTime && !enemy.movement.isMoving)
         {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    public void Attack()
-    {
-        if(enemy.radar.inAttackRange && atkAllowed)
-        {
-            if(enemy.data.type == "Melee"){
-                StartCoroutine(Melee_WaitAndAttack());
-            }
-            else if(enemy.data.type == "Ranged"){
-                StartCoroutine(Ranged_WaitAndAttack());
-            }
-        }
-    }
-
-    bool hasHit_melee;
-    IEnumerator Melee_WaitAndAttack()
-    {
-        isAttacking = true;
-        
-        hasHit_melee = false;
-        yield return new WaitForSeconds(enemy.data.delayAtk);
-
-        Collider[] hit = Physics.OverlapSphere(attackLoc.position, 2f, enemy.playerMask);
-        for (int j = 0; j < hit.Length; j++)
-        {
-            if (hit[j].gameObject.layer == 6 && !hasHit_melee)
+            isAttacking = true;
+            if(enemy.data.type == "Melee")
             {
-                hit[j].GetComponent<PlayerStatus>().TakeDamage(enemy.data.damage);
-                hasHit_melee = true;
+                StartCoroutine(Melee_Atk());
             }
+            else if(enemy.data.type == "Ranged")
+            {
+                StartCoroutine(Ranged_Atk());
+            }
+            oneTime = true;
+            timeSinceLastAttack = 0;
         }
-        atkAllowed = false;
-        isAttacking = false;
-        timeSinceLastAttack = 0;
+        ResetAttack();
     }
 
-    bool hasInstantiate = false;
-    IEnumerator Ranged_WaitAndAttack(){
-        isAttacking = true;
+    IEnumerator Melee_Atk()
+    {
         yield return new WaitForSeconds(enemy.data.delayAtk);
-        if(!hasInstantiate){
-            Instantiate(enemy.data.bullet, attackLoc.position, attackLoc.rotation); 
-            hasInstantiate = true;
+        for(int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(enemy.data.burstDelay);
+            Debug.Log("Atk");
         }
-
-        atkAllowed = false;
         isAttacking = false;
-        timeSinceLastAttack = 0;
-        
     }
 
-    void AtkReset(){
-        if(timeSinceLastAttack > enemy.data.coolDownAttk){
-            atkAllowed = true;
-            hasInstantiate = false;
+    IEnumerator Ranged_Atk()
+    {
+        yield return new WaitForSeconds(enemy.data.delayAtk);
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(enemy.data.burstDelay);
+            Debug.Log("Atk");
+            Instantiate(enemy.data.bullet, attackLoc.transform.position, attackLoc.transform.rotation);
+        }
+        isAttacking = false;
+    }
+
+    void ResetAttack()
+    {
+        if (timeSinceLastAttack > enemy.data.coolDownAttk)
+        {
+            oneTime = false;
         }
     }
+
 }
