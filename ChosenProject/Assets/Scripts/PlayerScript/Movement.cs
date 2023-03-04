@@ -51,6 +51,8 @@ public class Movement : PlayerBehaviour
     public float gravity = -9.81f;
     int currentJump = 0;
     public void Jump(){
+        
+        Debug.Log(currentJump);
         if(currentJump<player.status.maxJump && Input.GetButtonDown("Jump")){
             currentJump++;
             jumpVelocity.y = player.status.jumpHeight;

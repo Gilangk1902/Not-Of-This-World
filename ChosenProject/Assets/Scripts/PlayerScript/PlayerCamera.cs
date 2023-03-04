@@ -34,11 +34,24 @@ public class PlayerCamera : PlayerBehaviour
         camera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
     }
 
-    public void CameraLockedOnTarget(Vector3 Target)
+    public void CameraLockedOnTargetVertical(Vector3 Target)
     {
-        Vector3 direction;
-        direction = (Target-transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*lookSensitivity*5);
+        camera.transform.LookAt(Target);
+
+        Vector3 eulerAngles = camera.transform.rotation.eulerAngles;
+        eulerAngles.y = 0;
+        eulerAngles.z = 0;
+
+        camera.transform.localRotation = Quaternion.Euler(eulerAngles);
+    }
+
+    public void CameraLockedOnTargetHorizontal(Vector3 Target){
+        transform.LookAt(Target);
+
+        Vector3 eulerAngles = transform.rotation.eulerAngles;
+        eulerAngles.x = 0;
+        eulerAngles.z = 0;
+
+        transform.rotation = Quaternion.Euler(eulerAngles);
     }
 }

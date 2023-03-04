@@ -91,7 +91,9 @@ public class WeaponShooting : WeaponBehaviour
         {
             if(hit.transform.gameObject.layer == 7)
             {
-                target = hit.transform.gameObject;
+                if(hit.transform.Find("Target") != null){
+                    target = hit.transform.Find("Target").gameObject;
+                }
                 camera.enable = false;
                 isLock = true;
                 Debug.Log("lock");
@@ -101,7 +103,8 @@ public class WeaponShooting : WeaponBehaviour
 
     public void AimLock()
     {
-        camera.CameraLockedOnTarget(target.transform.position);
+        camera.CameraLockedOnTargetHorizontal(target.transform.position);
+        camera.CameraLockedOnTargetVertical(target.transform.position);
     }
 
     public void AimLockRelease()
