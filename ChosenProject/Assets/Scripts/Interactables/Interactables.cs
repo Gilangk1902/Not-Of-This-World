@@ -5,12 +5,11 @@ using UnityEngine;
 public class Interactables : MonoBehaviour
 {
     public Player player;
-    public HealthModifier health;
     public InteractablesData data;
 
     public void Awake()
     {
-        health.interactables = this;
+        
     }
 }
 

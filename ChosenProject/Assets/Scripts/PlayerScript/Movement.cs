@@ -30,10 +30,10 @@ public class Movement : PlayerBehaviour
     }
 
     public void Sprint(){
-        if(Input.GetKeyDown(KeyCode.LeftShift)){
+        if(Input.GetButtonDown("Sprint")){
             player.status.speed = player.status.speed*2.4f;
         }
-        else if(Input.GetKeyUp(KeyCode.LeftShift)){
+        else if(Input.GetButtonUp("Sprint")){
             player.status.speed = player.status.data.speed;
         }
     }
@@ -52,7 +52,7 @@ public class Movement : PlayerBehaviour
     int currentJump = 0;
     public void Jump(){
         
-        Debug.Log(currentJump);
+        
         if(currentJump<player.status.maxJump && Input.GetButtonDown("Jump")){
             currentJump++;
             jumpVelocity.y = player.status.jumpHeight;

@@ -10,7 +10,7 @@ public class PlayerStatus : PlayerBehaviour
     public int maxJump;
     public PlayerData data;
     
-    void Start()
+    void Start()    
     {
         health = data.health;
         speed = data.speed;
@@ -20,5 +20,10 @@ public class PlayerStatus : PlayerBehaviour
 
     public void TakeDamage(int value){
         health-=value;
+    }
+
+    public void HealPlayer(int value)
+    {
+        health += value;
     }
 }

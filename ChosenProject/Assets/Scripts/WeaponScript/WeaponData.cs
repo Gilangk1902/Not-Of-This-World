@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="Weapon", menuName ="Weapon/Data")]
@@ -18,5 +19,6 @@ public class WeaponData : ScriptableObject
     public float fireRate;
     public float reloadTime;
     public float bulletSpread;
-    
+
+    public Animator anim;
 }

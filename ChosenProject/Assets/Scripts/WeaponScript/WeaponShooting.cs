@@ -8,6 +8,7 @@ public class WeaponShooting : WeaponBehaviour
     public bool enable;
     public LayerMask EnemyMask;
     public float timeSinceLastShot;
+    public bool isShooting;
     [HideInInspector] public float fireRate;
     void Start() {
         timeSinceLastShot = weapon.data.fireRate;    
@@ -19,11 +20,11 @@ public class WeaponShooting : WeaponBehaviour
 
         if (weapon.data.available && !weapon.status.isSwitching && !weapon.status.isReloading)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetButton("Fire1"))
             {
                 Shoot();
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetButtonDown("Fire2"))
             {
                 Secondary();
             }
@@ -37,6 +38,8 @@ public class WeaponShooting : WeaponBehaviour
         {
             AimLock();
         }
+
+        
     }
 
     public void Shoot(){
@@ -47,12 +50,22 @@ public class WeaponShooting : WeaponBehaviour
                     if(hit.transform.gameObject.layer == 7){
                         EnemyStatus hitStatus = hit.collider.gameObject.GetComponent<EnemyStatus>();
                         hitStatus.TakeDamage(weapon.data.damage);
-                        Debug.Log("Hit");
+                        
                     }
                 }
+                
                 weapon.data.ammoInMag--;
                 timeSinceLastShot = 0f;
+                isShooting = true;
             }
+            else
+            {
+                isShooting = false;
+            }
+        }
+        else
+        {
+            isShooting = false;
         }
     }
 
@@ -96,7 +109,7 @@ public class WeaponShooting : WeaponBehaviour
                 }
                 camera.enable = false;
                 isLock = true;
-                Debug.Log("lock");
+                
             }
         }
     }
@@ -111,6 +124,6 @@ public class WeaponShooting : WeaponBehaviour
     {
         camera.enable = true;
         isLock = false;
-        Debug.Log("Release");
+        
     }
 }

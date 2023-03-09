@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class HealthModifier : InteractablesBehaviour
 {
+    [SerializeField] private Interactables interact;
     public override void OnPickUp()
     {
-        interactables.player.data.health += ((int)interactables.data.value);
+        interact.player.data.health += ((int)interact.data.value);
+
         Destroy(gameObject);
         Debug.Log("picked up");
     }

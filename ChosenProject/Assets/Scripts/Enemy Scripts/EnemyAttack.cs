@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-//u were trying to only startcoroutine onetime only, using bool oneTime
 public class EnemyAttack : EnemyBehaviour
 {
     float timeSinceLastAttack;
@@ -26,6 +25,7 @@ public class EnemyAttack : EnemyBehaviour
         if (enemy.radar.inAttackRange && !oneTime && !enemy.movement.isMoving)
         {
             isAttacking = true;
+            enemy.movement.isMoving = false; ;
             if(enemy.data.type == "Melee")
             {
                 StartCoroutine(Melee_Atk());

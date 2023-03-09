@@ -17,9 +17,10 @@ MonoBehaviour:
   damage: 100
   maxDistance: 100
   maxAmmo: 300
-  ammoInInventory: 300
+  ammoInInventory: 258
   magSize: 30
-  ammoInMag: 30
-  fireRate: 0.05
+  ammoInMag: 11
+  fireRate: 0.001
   reloadTime: 2
   bulletSpread: 0.4
+  anim: {fileID: 0}

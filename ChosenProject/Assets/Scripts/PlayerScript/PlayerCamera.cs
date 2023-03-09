@@ -43,6 +43,8 @@ public class PlayerCamera : PlayerBehaviour
         eulerAngles.z = 0;
 
         camera.transform.localRotation = Quaternion.Euler(eulerAngles);
+
+        //camera.transform.localRotation = Quaternion.Slerp(camera.transform.localRotation, Quaternion.Euler(eulerAngles), Time.deltaTime * lookSensitivity * 5f);
     }
 
     public void CameraLockedOnTargetHorizontal(Vector3 Target){
@@ -53,5 +55,7 @@ public class PlayerCamera : PlayerBehaviour
         eulerAngles.z = 0;
 
         transform.rotation = Quaternion.Euler(eulerAngles);
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(eulerAngles), Time.deltaTime * Time.deltaTime * lookSensitivity * 5f);
     }
 }

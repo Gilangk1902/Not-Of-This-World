@@ -24,14 +24,11 @@ public class EnemyMovement : EnemyBehaviour
         if(enemy.radar.inAttackRange){
             agent.destination = transform.position;
             enemy.anim.PlayIdle();
+            isMoving = false;
         }
-        else{
+        else if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange){
             if(!enemy.attack.isAttacking){
                 WalkTo();
-            }
-            else if(enemy.attack.isAttacking){
-                agent.destination = transform.position;
-                enemy.anim.PlayIdle();
             }
         }
     }
@@ -39,14 +36,16 @@ public class EnemyMovement : EnemyBehaviour
     {
         if (enemy.provoked)
         {
-            runTo = playerLocation.position;
+            runTo = lastSeenPlayerLocation;
             agent.destination = runTo;
             enemy.anim.PlayWalk();
+            isMoving = true;
         }
         else{
             runTo = transform.position;
             agent.destination = runTo;
             enemy.anim.PlayIdle();
+            isMoving = false;
         }
     }
     public void SetRandomPosition()

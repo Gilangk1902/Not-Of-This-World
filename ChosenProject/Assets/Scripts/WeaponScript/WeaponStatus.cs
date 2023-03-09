@@ -8,6 +8,7 @@ public class WeaponStatus : WeaponBehaviour
     public int ammoInMag;
     public int ammo;
     public bool isReloading;
+    public bool playReloadAnim;
     public int currentWeapon;
     public int prevWeapon;
     public GameObject pistol;
@@ -33,8 +34,11 @@ public class WeaponStatus : WeaponBehaviour
 
     public void Reload(){
         if(Input.GetKeyDown(KeyCode.R)){
-            isReloading = true;
-            Invoke("FillAmmo", weapon.data.reloadTime);
+            if(weapon.data.ammoInMag < weapon.data.magSize)
+            {
+                isReloading = true;
+                Invoke("FillAmmo", weapon.data.reloadTime);
+            }
         }
     }
     public void FillAmmo(){
@@ -66,6 +70,8 @@ public class WeaponStatus : WeaponBehaviour
             AR.SetActive(false);
             timeSinceLastSwitch = 0;
             isSwitching = true;
+            //TODO change animator
+            weapon.anim.ChangeTo("Pistol");
         }
         else if(currentWeapon==1){
             weapon.data = weapon.AssaultRifle;
@@ -73,6 +79,8 @@ public class WeaponStatus : WeaponBehaviour
             AR.SetActive(true);
             timeSinceLastSwitch = 0;
             isSwitching = true;
+            //TODO change animator
+            weapon.anim.ChangeTo("AR");
         }
     }
 }
