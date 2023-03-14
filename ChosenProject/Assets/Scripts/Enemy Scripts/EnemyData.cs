@@ -19,4 +19,8 @@ public class EnemyData : ScriptableObject
     public string type;
     public GameObject bullet;
 
+    public int magSize;
+    public int ammo;
+    public float reloadTime;
+
 }

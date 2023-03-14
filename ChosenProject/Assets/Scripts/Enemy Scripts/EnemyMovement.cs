@@ -21,13 +21,12 @@ public class EnemyMovement : EnemyBehaviour
     {
         FindPlayerLocation();
         Gravity();
-        if(enemy.radar.inAttackRange){
+        if(enemy.radar.inAttackRange || enemy.attack.isReloading){
             agent.destination = transform.position;
-            enemy.anim.PlayIdle();
             isMoving = false;
         }
         else if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange){
-            if(!enemy.attack.isAttacking){
+            if(!enemy.attack.isAttacking && !enemy.attack.isReloading){
                 WalkTo();
             }
         }
@@ -38,13 +37,11 @@ public class EnemyMovement : EnemyBehaviour
         {
             runTo = lastSeenPlayerLocation;
             agent.destination = runTo;
-            enemy.anim.PlayWalk();
             isMoving = true;
         }
         else{
             runTo = transform.position;
             agent.destination = runTo;
-            enemy.anim.PlayIdle();
             isMoving = false;
         }
     }

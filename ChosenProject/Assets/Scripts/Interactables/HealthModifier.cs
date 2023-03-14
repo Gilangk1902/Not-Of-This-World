@@ -10,6 +10,5 @@ public class HealthModifier : InteractablesBehaviour
         interact.player.data.health += ((int)interact.data.value);
 
         Destroy(gameObject);
-        Debug.Log("picked up");
     }
 }

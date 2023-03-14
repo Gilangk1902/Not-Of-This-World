@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   available: 1
   name: AR
-  damage: 100
+  damage: 10
   maxDistance: 100
   maxAmmo: 300
-  ammoInInventory: 258
+  ammoInInventory: 32
   magSize: 30
-  ammoInMag: 11
-  fireRate: 0.001
+  ammoInMag: 5
+  fireRate: 0.2
   reloadTime: 2
   bulletSpread: 0.4
+  swithcSpeed: 1.3
   anim: {fileID: 0}

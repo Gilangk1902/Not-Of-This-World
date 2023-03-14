@@ -8,7 +8,8 @@ public class WeaponAnimation : WeaponBehaviour
     [SerializeField] public Animator anim;
     [SerializeField] Animator pistol;
     [SerializeField] Animator AR;
-    bool oneTime = false;
+    bool oneTimeReload = false;
+    bool oneTimeSwitch = false;
 
     private void Start()
     {
@@ -16,24 +17,30 @@ public class WeaponAnimation : WeaponBehaviour
     }
     void Update()
     {
-        //Debug.Log("shoot : " + weapon.shoot.isShooting + " " + "reload : " + weapon.status.isReloading);
         if (!weapon.status.isReloading)
         {
-            oneTime = false;
+            oneTimeReload = false;
+        }
+        if(!weapon.status.isSwitching){
+            oneTimeSwitch = false;
         }
 
-        if(weapon.shoot.isShooting && !weapon.status.isReloading)
+        if(weapon.status.isSwitching){
+            if(!oneTimeSwitch){
+                anim.Play("Switch");
+                oneTimeSwitch = true;
+            }
+        }
+        else if(weapon.shoot.isShooting && !weapon.status.isReloading && !weapon.status.isSwitching)
         {
             anim.Play("Shoot");
-            //Debug.Log("Shoot");
         }
-        else if (!weapon.shoot.isShooting && weapon.status.isReloading)
+        else if (!weapon.shoot.isShooting && weapon.status.isReloading && !weapon.status.isSwitching)
         {
-            if (!oneTime)
+            if (!oneTimeReload)
             {
                 anim.Play("Reload");
-                //Debug.Log("reload");
-                oneTime = true;
+                oneTimeReload = true;
             }
         }
         else if(!weapon.shoot.isShooting && !weapon.status.isReloading)

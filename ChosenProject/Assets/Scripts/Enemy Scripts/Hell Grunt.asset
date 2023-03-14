@@ -25,3 +25,6 @@ MonoBehaviour:
   delayAtk: 0.8
   type: Ranged
   bullet: {fileID: 926764822982937220, guid: b51561e79c611184da8610bf88a39807, type: 3}
+  magSize: 10
+  ammo: 8
+  reloadTime: 2

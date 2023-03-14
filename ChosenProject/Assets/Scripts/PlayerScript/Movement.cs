@@ -5,14 +5,28 @@ using UnityEngine;
 public class Movement : PlayerBehaviour
 {
     public CharacterController controller;
-    
+    public int maxDash = 3;
+    float timeSinceLastDash;
+    private void Start() {
+    }
     void Update()
     {
-        PlayerMovement();
-        Jump();
+        timeSinceLastDash+=Time.deltaTime;
+        if(!isDashing){
+            PlayerMovement();
+            Jump();
+            Crouch();
+        }
         Gravity();
-        Sprint();
-        Crouch();
+        Dash();
+        DashVelocity();
+
+        if(timeSinceLastDash > 3){
+            dashCount--;
+            timeSinceLastDash = 0;
+        }
+
+        
     }
     
     Vector3 moveVelocity;
@@ -29,21 +43,56 @@ public class Movement : PlayerBehaviour
         }
     }
 
-    public void Sprint(){
-        if(Input.GetButtonDown("Sprint")){
-            player.status.speed = player.status.speed*2.4f;
+    bool isDashing = false;
+    int dashCount = 0;
+    bool setAxisDashOnetime = false;
+    Vector3 dashDirection;
+    float dashCooldown = 2f;
+    float dashSpeed = 100f;
+    public void Dash(){
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        if(!isDashing){
+            dashDirection = transform.right*x + transform.forward*z;
         }
-        else if(Input.GetButtonUp("Sprint")){
-            player.status.speed = player.status.data.speed;
+        if(Input.GetKeyDown(KeyCode.LeftShift) && dashCount < maxDash){
+            if(dashDirection == Vector3.zero){
+                dashDirection = transform.forward;
+            }
+            isDashing = true;
+            dashCount++;
+        }
+        if(isDashing){
+            controller.Move(dashDirection*dashSpeed*Time.deltaTime);
+            //Invoke("DashStop", .1f);
+            DashStop();
+        }
+    }
+
+    void DashVelocity(){
+        if(isDashing){
+            if(dashSpeed<=100 && dashSpeed > 0){
+                dashSpeed-=.5f;
+            }
+        }
+        else{
+            dashSpeed=80f;
+        }
+    }
+    void DashStop(){
+        if(dashSpeed <= 5f){
+            isDashing = false;
+            timeSinceLastDash = 0;
         }
     }
 
     public void Crouch(){
         if(Input.GetKeyDown(KeyCode.LeftControl)){
-            transform.localScale = new Vector3(0.5f,0.5f, 0.5f);
+            controller.height = 2.5f;
         }
         else if(Input.GetKeyUp(KeyCode.LeftControl)){
-            transform.localScale = new Vector3(1,1f, 1);
+            controller.height = 4;
         }
     }
     
@@ -51,7 +100,6 @@ public class Movement : PlayerBehaviour
     public float gravity = -9.81f;
     int currentJump = 0;
     public void Jump(){
-        
         
         if(currentJump<player.status.maxJump && Input.GetButtonDown("Jump")){
             currentJump++;

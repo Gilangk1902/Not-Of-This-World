@@ -7,6 +7,7 @@ public class PlayerInteract : PlayerBehaviour
     float handLength = 1f;
     public LayerMask interactMask;
     float timeSinceLastInteract;
+    bool isInteractibles;
 
     private void Start()
     {
@@ -52,10 +53,10 @@ public class PlayerInteract : PlayerBehaviour
         {
             if (hit.transform.gameObject.layer == 8)
             {
-                if (Input.GetKeyDown(KeyCode.Z) && !isHolding)
+                if (Input.GetKeyDown(KeyCode.Z) && !isHolding && hit.transform.gameObject.GetComponent<PhysicsInteractibles>() != null)
                 {
                     currentHoldingObject =  hit.transform.gameObject;
-                    
+                    currentHoldingObject.GetComponent<PhysicsInteractibles>().isHold = true;
                     isHolding = true;
                     timeSinceLastInteract = 0f;
                 }
@@ -68,9 +69,10 @@ public class PlayerInteract : PlayerBehaviour
         if (isHolding)
         {
             currentHoldingObject.transform.position = hand.position;
-            currentHoldingObject.transform.rotation = hand.rotation;
-            if (Input.GetKeyDown(KeyCode.Z) && timeSinceLastInteract > 1f)
+            currentHoldingObject.transform.rotation = Quaternion.Euler(hand.transform.eulerAngles.x, hand.transform.eulerAngles.y, hand.transform.eulerAngles.z);
+            if (Input.GetKeyDown(KeyCode.Z) && timeSinceLastInteract > .4f)
             {
+                currentHoldingObject.GetComponent<PhysicsInteractibles>().isHold = false;
                 isHolding= false;
             }
         }

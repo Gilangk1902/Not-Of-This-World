@@ -5,6 +5,7 @@ using UnityEngine;
 public class PhysicsInteractibles : MonoBehaviour
 {
     bool isGrounded;
+    public bool isHold = false;
     [SerializeField] private LayerMask groundMask;
 
     private void Update()
@@ -15,16 +16,16 @@ public class PhysicsInteractibles : MonoBehaviour
     Vector3 velocity;
     private void Gravity()
     {
-        if (!isGrounded)
+        if (!isGrounded && !isHold)
         {
-            velocity += Physics.gravity/2 * Time.deltaTime;
+            velocity += Physics.gravity * Time.deltaTime;
             transform.position += velocity * Time.deltaTime;
         }
-        else
+        else if(isGrounded)
         {
             velocity = Vector3.zero;
             transform.position += velocity * Time.deltaTime;
-            transform.rotation = new Quaternion(0, transform.rotation.y, 0, 0);
+            transform.rotation = Quaternion.Euler(0,transform.eulerAngles.y, 0);
         }
     }
 }

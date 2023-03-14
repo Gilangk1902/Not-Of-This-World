@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   available: 1
   name: Pistol
-  damage: 100
+  damage: 5
   maxDistance: 500
   maxAmmo: 120
-  ammoInInventory: 120
+  ammoInInventory: 119
   magSize: 12
   ammoInMag: 12
   fireRate: 0.3
   reloadTime: 3
   bulletSpread: 0.5
+  swithcSpeed: 1.8
+  anim: {fileID: 0}

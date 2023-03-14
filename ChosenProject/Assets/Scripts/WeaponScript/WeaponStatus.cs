@@ -26,7 +26,7 @@ public class WeaponStatus : WeaponBehaviour
         SwitchingWeapon();
 
         timeSinceLastSwitch += Time.deltaTime;
-        if(timeSinceLastSwitch > 3f)
+        if(timeSinceLastSwitch > weapon.data.swithcSpeed)
         {
             isSwitching= false;
         }
@@ -34,7 +34,7 @@ public class WeaponStatus : WeaponBehaviour
 
     public void Reload(){
         if(Input.GetKeyDown(KeyCode.R)){
-            if(weapon.data.ammoInMag < weapon.data.magSize)
+            if(weapon.data.ammoInMag < weapon.data.magSize && !isSwitching && !weapon.shoot.isShooting)
             {
                 isReloading = true;
                 Invoke("FillAmmo", weapon.data.reloadTime);
@@ -55,7 +55,7 @@ public class WeaponStatus : WeaponBehaviour
         for(int i=0;i<keyCodes.Length;i++){
             if(Input.GetKeyDown(keyCodes[i])){
                 currentWeapon = i;
-                if(currentWeapon!=prevWeapon){
+                if(currentWeapon!=prevWeapon && !isSwitching){
                     prevWeapon = currentWeapon;
                     Switch();
                 }

@@ -19,6 +19,7 @@ public class WeaponData : ScriptableObject
     public float fireRate;
     public float reloadTime;
     public float bulletSpread;
+    public float swithcSpeed;
 
     public Animator anim;
 }

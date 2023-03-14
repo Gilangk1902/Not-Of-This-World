@@ -10,6 +10,7 @@ public class WeaponShooting : WeaponBehaviour
     public float timeSinceLastShot;
     public bool isShooting;
     [HideInInspector] public float fireRate;
+    [SerializeField] GameObject hitMarker;
     void Start() {
         timeSinceLastShot = weapon.data.fireRate;    
         fireRate = weapon.data.fireRate;
@@ -44,13 +45,13 @@ public class WeaponShooting : WeaponBehaviour
 
     public void Shoot(){
         if(weapon.data.ammoInMag > 0 && !weapon.status.isReloading){
-            if(timeSinceLastShot > fireRate){
+            if(timeSinceLastShot >= weapon.data.fireRate){
                 RaycastHit hit;
                 if(Physics.Raycast(muzzleBarrel.position, muzzleBarrel.forward, out hit)){
                     if(hit.transform.gameObject.layer == 7){
                         EnemyStatus hitStatus = hit.collider.gameObject.GetComponent<EnemyStatus>();
                         hitStatus.TakeDamage(weapon.data.damage);
-                        
+                        hitMarker.SetActive(true);
                     }
                 }
                 
