@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAnimator : EnemyBehaviour
 {
     public Animator anim;
-    void Main(){
+    void Update(){
         if(enemy.movement.isMoving && !enemy.attack.isAttacking && !enemy.attack.isReloading){
             anim.Play("Walk");
         }

@@ -53,6 +53,13 @@ public class WeaponShooting : WeaponBehaviour
                         hitStatus.TakeDamage(weapon.data.damage);
                         hitMarker.SetActive(true);
                     }
+                    if(hit.transform.gameObject.layer == 8){
+                        if(hit.collider.gameObject.GetComponent<Destructables>()!=null){
+                            Destructables hitStatus = hit.collider.gameObject.GetComponent<Destructables>();
+                            hitStatus.TakeDamage(weapon.data.damage);
+                            hitMarker.SetActive(true);
+                        }
+                    }
                 }
                 
                 weapon.data.ammoInMag--;
