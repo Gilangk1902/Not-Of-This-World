@@ -88,6 +88,10 @@ public class PlayerInteract : PlayerBehaviour
         {
             hit.transform.gameObject.GetComponent<Door>().OnPickUp();
         }
+        else if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "ammo")
+        {
+            hit.transform.gameObject.GetComponent<AmmoModifier>().OnPickUp();
+        }
         else
         {
             return;

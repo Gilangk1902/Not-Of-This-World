@@ -11,8 +11,6 @@ public class WeaponStatus : WeaponBehaviour
     public bool playReloadAnim;
     public int currentWeapon;
     public int prevWeapon;
-    public GameObject pistol;
-    public GameObject AR;
 
     public bool isSwitching;
     public float timeSinceLastSwitch;
@@ -63,24 +61,61 @@ public class WeaponStatus : WeaponBehaviour
         }
     }
 
-    public void Switch(){
-        if(currentWeapon==0){  
-            weapon.data = weapon.pistol;
-            pistol.SetActive(true);
-            AR.SetActive(false);
+    //public void Switch(){
+    //    if(currentWeapon==0){  
+    //        weapon.data = weapon.pistol;
+    //        pistol.SetActive(true);
+    //        AR.SetActive(false);
+    //        timeSinceLastSwitch = 0;
+    //        isSwitching = true;
+    //        //TODO change animator
+    //        weapon.anim.ChangeTo("Pistol");
+    //    }
+    //    else if(currentWeapon==1){
+    //        weapon.data = weapon.AssaultRifle;
+    //        pistol.SetActive(false);
+    //        AR.SetActive(true);
+    //        timeSinceLastSwitch = 0;
+    //        isSwitching = true;
+    //        //TODO change animator
+    //        weapon.anim.ChangeTo("AR");
+    //    }
+    //}
+
+    public void Switch()
+    {
+        if (currentWeapon == 0 && weapon.inventory.obj_slot1 != null)
+        {
+            weapon.data = weapon.inventory.data_slot1;
+            weapon.anim.ChangeTo(weapon.inventory.anim_slot1);
+            ChangeModel(weapon.inventory.obj_slot1);
             timeSinceLastSwitch = 0;
             isSwitching = true;
-            //TODO change animator
-            weapon.anim.ChangeTo("Pistol");
+
         }
-        else if(currentWeapon==1){
-            weapon.data = weapon.AssaultRifle;
-            pistol.SetActive(false);
-            AR.SetActive(true);
-            timeSinceLastSwitch = 0;
-            isSwitching = true;
-            //TODO change animator
-            weapon.anim.ChangeTo("AR");
+    }
+
+
+    //public void Switch()
+    //{
+    //    weapon.data = weapon.inventory.data_slot1;
+    //    weapon.anim.ChangeTo(weapon.inventory.anim_slot1);
+    //    ChangeModel(weapon.inventory.obj_slot1);
+    //    timeSinceLastSwitch = 0;
+    //    isSwitching = true;
+    //}
+
+    private void ChangeModel(string name)
+    {
+        if(name == "Pistol")
+        {
+            weapon.inventory.list.pistol_Obj.SetActive(true);
+            weapon.inventory.list.AR_obj.SetActive(false);
+        }
+        else if(name == "AR")
+        {
+            weapon.inventory.list.AR_obj.SetActive(true);
+            weapon.inventory.list.pistol_Obj.SetActive(false);
         }
     }
 }

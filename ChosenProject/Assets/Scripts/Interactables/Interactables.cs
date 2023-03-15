@@ -9,7 +9,7 @@ public class Interactables : MonoBehaviour
 
     public void Awake()
     {
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 }
 

@@ -11,12 +11,14 @@ public class Weapon : MonoBehaviour
     public WeaponStatus status;
     public WeaponUI ui;
     public WeaponAnimation anim;
+    public PlayerInventory inventory;
 
     void Awake(){
         shoot.weapon = this;
         status.weapon = this;
         ui.weapon = this;
         anim.weapon = this;
+        inventory.weapon = this;
     }
 
     void Update(){

@@ -21,11 +21,11 @@ public class EnemyMovement : EnemyBehaviour
     {
         FindPlayerLocation();
         Gravity();
-        if(enemy.radar.inAttackRange || enemy.attack.isReloading){
+        if(enemy.radar.inAttackRange || enemy.attack.isReloading || enemy.attack.isAttacking){
             agent.destination = transform.position;
             isMoving = false;
         }
-        else if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange){
+        else if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange && enemy.provoked && !enemy.attack.isAttacking){
             if(!enemy.attack.isAttacking && !enemy.attack.isReloading){
                 WalkTo();
             }
@@ -33,17 +33,9 @@ public class EnemyMovement : EnemyBehaviour
     }
     public void WalkTo()
     {
-        if (enemy.provoked)
-        {
-            runTo = lastSeenPlayerLocation;
-            agent.destination = runTo;
-            isMoving = true;
-        }
-        else{
-            runTo = transform.position;
-            agent.destination = runTo;
-            isMoving = false;
-        }
+        runTo = lastSeenPlayerLocation;
+        agent.destination = runTo;
+        isMoving = true;
     }
     public void SetRandomPosition()
     {
