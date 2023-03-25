@@ -46,8 +46,6 @@ public class WeaponStatus : WeaponBehaviour
     }
     private KeyCode[] keyCodes = {
         KeyCode.Alpha1, 
-        KeyCode.Alpha2,
-        KeyCode.Alpha3
     };
     public void SwitchingWeapon(){
         for(int i=0;i<keyCodes.Length;i++){
@@ -61,27 +59,6 @@ public class WeaponStatus : WeaponBehaviour
         }
     }
 
-    //public void Switch(){
-    //    if(currentWeapon==0){  
-    //        weapon.data = weapon.pistol;
-    //        pistol.SetActive(true);
-    //        AR.SetActive(false);
-    //        timeSinceLastSwitch = 0;
-    //        isSwitching = true;
-    //        //TODO change animator
-    //        weapon.anim.ChangeTo("Pistol");
-    //    }
-    //    else if(currentWeapon==1){
-    //        weapon.data = weapon.AssaultRifle;
-    //        pistol.SetActive(false);
-    //        AR.SetActive(true);
-    //        timeSinceLastSwitch = 0;
-    //        isSwitching = true;
-    //        //TODO change animator
-    //        weapon.anim.ChangeTo("AR");
-    //    }
-    //}
-
     public void Switch()
     {
         if (currentWeapon == 0 && weapon.inventory.obj_slot1 != null)
@@ -93,29 +70,29 @@ public class WeaponStatus : WeaponBehaviour
             isSwitching = true;
 
         }
+        // if (currentWeapon == 1 && weapon.inventory.obj_slot2 != null)
+        // {
+        //     weapon.data = weapon.inventory.data_slot2;
+        //     weapon.anim.ChangeTo(weapon.inventory.anim_slot2);
+        //     ChangeModel(weapon.inventory.obj_slot2);
+        //     timeSinceLastSwitch = 0;
+        //     isSwitching = true;
+
+        // }
     }
 
-
-    //public void Switch()
-    //{
-    //    weapon.data = weapon.inventory.data_slot1;
-    //    weapon.anim.ChangeTo(weapon.inventory.anim_slot1);
-    //    ChangeModel(weapon.inventory.obj_slot1);
-    //    timeSinceLastSwitch = 0;
-    //    isSwitching = true;
-    //}
 
     private void ChangeModel(string name)
     {
         if(name == "Pistol")
         {
-            weapon.inventory.list.pistol_Obj.SetActive(true);
-            weapon.inventory.list.AR_obj.SetActive(false);
+            weapon.inventory.list.pistol_Anim.SetActive(true);
+            weapon.inventory.list.AR_Anim.SetActive(false);
         }
         else if(name == "AR")
         {
-            weapon.inventory.list.AR_obj.SetActive(true);
-            weapon.inventory.list.pistol_Obj.SetActive(false);
+            weapon.inventory.list.AR_Anim.SetActive(true);
+            weapon.inventory.list.pistol_Anim.SetActive(false);
         }
     }
 }

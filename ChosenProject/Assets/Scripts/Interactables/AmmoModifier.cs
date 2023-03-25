@@ -5,12 +5,16 @@ using UnityEngine;
 public class AmmoModifier : InteractablesBehaviour
 {
     private Weapon weapon;
+    private GameObject player;
+    [SerializeField] private Interactables interact;
     private void Awake()
     {
-        weapon = GameObject.Find("Player").GetComponentInChildren<Weapon>();
+        player = GameObject.Find("Player");
+        Transform grandChildren = player.transform.Find("EyePosition/Main Camera/InventoryChace/WeaponHolder");
+        weapon = grandChildren.GetComponent<Weapon>();
     }
     public override void OnPickUp()
     {
-        weapon.data.ammoInInventory += (int)interactables.data.value;
+        weapon.data.ammoInInventory += (int)interact.data.value;
     }
 }

@@ -8,6 +8,7 @@ public class PlayerInteract : PlayerBehaviour
     public LayerMask interactMask;
     float timeSinceLastInteract;
     bool isInteractibles;
+    [SerializeField] private Weapon weapon;
 
     private void Start()
     {
@@ -15,9 +16,12 @@ public class PlayerInteract : PlayerBehaviour
     }
     void Update()
     {
-        Use();
-        PickUp();
-        Holding();
+        if(!weapon.status.isReloading && !weapon.shoot.isShooting && !weapon.status.isSwitching){
+            Use();
+            PickUp();
+            Holding();
+        }
+        
         timeSinceLastInteract += Time.deltaTime;
     }
     RaycastHit hit;
@@ -91,6 +95,10 @@ public class PlayerInteract : PlayerBehaviour
         else if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "ammo")
         {
             hit.transform.gameObject.GetComponent<AmmoModifier>().OnPickUp();
+        }
+        else if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "Weapon")
+        {
+            hit.transform.gameObject.GetComponent<Weapon_Interactables>().OnPickUp();
         }
         else
         {

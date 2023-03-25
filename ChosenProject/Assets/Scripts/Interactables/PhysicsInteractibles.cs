@@ -6,8 +6,16 @@ public class PhysicsInteractibles : MonoBehaviour
 {
     bool isGrounded;
     public bool isHold = false;
+    [SerializeField] Collider myCollider;
+    [SerializeField] Collider otherCollider;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private LayerMask playerMask;
 
+    private void Start() {
+        myCollider = GetComponent<Collider>();
+        otherCollider = GameObject.Find("Player").GetComponent<CharacterController>();
+        Physics.IgnoreCollision(myCollider, otherCollider);
+    }
     private void Update()
     {
         isGrounded = Physics.CheckSphere(transform.position, .2f, groundMask);
