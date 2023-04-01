@@ -20,6 +20,7 @@ public class PhysicsInteractibles : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(transform.position, .2f, groundMask);
         Gravity();
+        PushForward();
     }
     Vector3 velocity;
     private void Gravity()
@@ -34,6 +35,15 @@ public class PhysicsInteractibles : MonoBehaviour
             velocity = Vector3.zero;
             transform.position += velocity * Time.deltaTime;
             transform.rotation = Quaternion.Euler(0,transform.eulerAngles.y, 0);
+        }
+    }
+
+    private void PushForward(){
+        if(!isGrounded && !isHold){
+            transform.position+=transform.forward*5f*Time.deltaTime;
+        }
+        else{
+            return;
         }
     }
 }

@@ -19,6 +19,11 @@ public class Weapon : MonoBehaviour
         ui.weapon = this;
         anim.weapon = this;
         inventory.weapon = this;
+        
+        pistol.ammoInInventory = pistol.maxAmmo;
+        pistol.ammoInMag = pistol.magSize;
+        AssaultRifle.ammoInInventory = AssaultRifle.maxAmmo;
+        AssaultRifle.ammoInMag = AssaultRifle.magSize;
     }
 
     void Update(){

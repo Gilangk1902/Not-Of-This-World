@@ -8,6 +8,7 @@ public class WeaponAnimation : WeaponBehaviour
     [SerializeField] public Animator anim;
     [SerializeField] Animator pistol;
     [SerializeField] Animator AR;
+    [SerializeField] Animator Holster;
     bool oneTimeReload = false;
     bool oneTimeSwitch = false;
 
@@ -57,6 +58,9 @@ public class WeaponAnimation : WeaponBehaviour
         else if(name == "AR")
         {
             anim = AR;
+        }
+        else if(name == "Holster"){
+
         }
     }
 }

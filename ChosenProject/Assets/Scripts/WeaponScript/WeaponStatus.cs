@@ -15,6 +15,8 @@ public class WeaponStatus : WeaponBehaviour
     public bool isSwitching;
     public float timeSinceLastSwitch;
 
+
+
     void Start() {
         weapon.data.ammoInInventory = weapon.data.maxAmmo;
         weapon.data.ammoInMag = weapon.data.magSize;
@@ -32,8 +34,7 @@ public class WeaponStatus : WeaponBehaviour
 
     public void Reload(){
         if(Input.GetKeyDown(KeyCode.R)){
-            if(weapon.data.ammoInMag < weapon.data.magSize && !isSwitching && !weapon.shoot.isShooting)
-            {
+            if(weapon.data.ammoInMag < weapon.data.magSize && !isSwitching && !weapon.shoot.isShooting){
                 isReloading = true;
                 Invoke("FillAmmo", weapon.data.reloadTime);
             }
@@ -45,7 +46,7 @@ public class WeaponStatus : WeaponBehaviour
         isReloading = false;
     }
     private KeyCode[] keyCodes = {
-        KeyCode.Alpha1, 
+        KeyCode.Alpha1
     };
     public void SwitchingWeapon(){
         for(int i=0;i<keyCodes.Length;i++){
@@ -70,15 +71,6 @@ public class WeaponStatus : WeaponBehaviour
             isSwitching = true;
 
         }
-        // if (currentWeapon == 1 && weapon.inventory.obj_slot2 != null)
-        // {
-        //     weapon.data = weapon.inventory.data_slot2;
-        //     weapon.anim.ChangeTo(weapon.inventory.anim_slot2);
-        //     ChangeModel(weapon.inventory.obj_slot2);
-        //     timeSinceLastSwitch = 0;
-        //     isSwitching = true;
-
-        // }
     }
 
 
@@ -88,10 +80,17 @@ public class WeaponStatus : WeaponBehaviour
         {
             weapon.inventory.list.pistol_Anim.SetActive(true);
             weapon.inventory.list.AR_Anim.SetActive(false);
+            weapon.inventory.list.holster_Anim.SetActive(false);
         }
         else if(name == "AR")
         {
             weapon.inventory.list.AR_Anim.SetActive(true);
+            weapon.inventory.list.pistol_Anim.SetActive(false);
+            weapon.inventory.list.holster_Anim.SetActive(false);
+        }
+        else if(name == "Holster"){
+            weapon.inventory.list.holster_Anim.SetActive(true);
+            weapon.inventory.list.AR_Anim.SetActive(false);
             weapon.inventory.list.pistol_Anim.SetActive(false);
         }
     }

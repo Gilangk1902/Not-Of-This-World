@@ -13,4 +13,9 @@ public class WeaponList : MonoBehaviour
     public WeaponData AR_data;
     public GameObject AR_Anim;
     public GameObject AR_Object;
+
+    public string holster_name;
+    public WeaponData holster_data;
+    public GameObject holster_Anim;
+    public GameObject holster_Object;
 }
