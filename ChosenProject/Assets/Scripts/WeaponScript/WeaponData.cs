@@ -7,7 +7,7 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     public bool available;
-    public string name;
+    public string weaponName;
 
     public float damage;
     public float maxDistance;

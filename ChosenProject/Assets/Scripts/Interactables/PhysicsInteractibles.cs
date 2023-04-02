@@ -10,11 +10,13 @@ public class PhysicsInteractibles : MonoBehaviour
     [SerializeField] Collider otherCollider;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private LayerMask playerMask;
+    public int num_of_holds;
 
     private void Start() {
         myCollider = GetComponent<Collider>();
         otherCollider = GameObject.Find("Player").GetComponent<CharacterController>();
         Physics.IgnoreCollision(myCollider, otherCollider);
+        num_of_holds = 1;
     }
     private void Update()
     {
@@ -39,7 +41,7 @@ public class PhysicsInteractibles : MonoBehaviour
     }
 
     private void PushForward(){
-        if(!isGrounded && !isHold){
+        if(!isGrounded && !isHold & num_of_holds!=0){
             transform.position+=transform.forward*5f*Time.deltaTime;
         }
         else{

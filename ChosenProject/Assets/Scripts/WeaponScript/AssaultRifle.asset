@@ -16,10 +16,10 @@ MonoBehaviour:
   name: AR
   damage: 10
   maxDistance: 100
-  maxAmmo: 300
-  ammoInInventory: 32
+  maxAmmo: 90
+  ammoInInventory: 90
   magSize: 30
-  ammoInMag: 5
+  ammoInMag: 7
   fireRate: 0.2
   reloadTime: 2
   bulletSpread: 0.4

@@ -380,6 +380,7 @@
 "Assets/Scripts/ProjectileScript/BulletData.cs"
 "Assets/Scripts/Spawner/Spawner.cs"
 "Assets/Scripts/Spawner/SpawnerData.cs"
+"Assets/Scripts/WeaponScript/InventorySlot.cs"
 "Assets/Scripts/WeaponScript/Misc.cs"
 "Assets/Scripts/WeaponScript/MiscItemData.cs"
 "Assets/Scripts/WeaponScript/PlayerInventory.cs"

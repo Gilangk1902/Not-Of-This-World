@@ -79,11 +79,11 @@ public class WeaponShooting : WeaponBehaviour
 
     public void Secondary()
     {
-        if (weapon.data.name == "AR")
+        if (weapon.data.weaponName == "AR")
         {
-            //Grenade Launncher
+            //TODO Grenade Launncher
         }
-        else if (weapon.data.name == "Pistol")
+        else if (weapon.data.weaponName == "Pistol")
         {
             if (isLock)
             {
@@ -99,15 +99,12 @@ public class WeaponShooting : WeaponBehaviour
     public float aimRadius;
     public float aimDistance;
     public bool isLock;
-    public PlayerCamera camera;
+    public PlayerCamera playerCamera;
     GameObject target;
     public void AimLockTrigger()
     {
-        //get enemy object position, with raycast, store in array
-        //rotate camera to...
         RaycastHit hit;
 
-        //TODO  change to sphereCastAll
         if(Physics.SphereCast(muzzleBarrel.position, aimRadius, muzzleBarrel.forward, out hit, aimDistance))
         {
             if(hit.transform.gameObject.layer == 7)
@@ -115,7 +112,7 @@ public class WeaponShooting : WeaponBehaviour
                 if(hit.transform.Find("Target") != null){
                     target = hit.transform.Find("Target").gameObject;
                 }
-                camera.enable = false;
+                playerCamera.enable = false;
                 isLock = true;
                 
             }
@@ -124,13 +121,13 @@ public class WeaponShooting : WeaponBehaviour
 
     public void AimLock()
     {
-        camera.CameraLockedOnTargetHorizontal(target.transform.position);
-        camera.CameraLockedOnTargetVertical(target.transform.position);
+        playerCamera.CameraLockedOnTargetHorizontal(target.transform.position);
+        playerCamera.CameraLockedOnTargetVertical(target.transform.position);
     }
 
     public void AimLockRelease()
     {
-        camera.enable = true;
+        playerCamera.enable = true;
         isLock = false;
         
     }

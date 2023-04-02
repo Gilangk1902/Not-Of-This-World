@@ -27,23 +27,18 @@ public class PlayerInteract : PlayerBehaviour
     RaycastHit hit;
     void Use()
     {
-        if(Physics.Raycast(player.Camera.camera.transform.position, player.Camera.camera.transform.forward, out hit))
-        {
-            if(hit.transform.gameObject.layer == 8)
-            {
+        if(Physics.Raycast(player.Camera.camera.transform.position, player.Camera.camera.transform.forward, out hit)){
+            if(hit.transform.gameObject.layer == 8){
                 player.UI.ShowIinteract();
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    GetVar();
+                if (Input.GetKeyDown(KeyCode.E)){
+                    Pick();
                 }
             }
-            else
-            {
+            else{
                 player.UI.Stop_ShowInteract();
             }
         }
-        else
-        {
+        else{
             player.UI.Stop_ShowInteract();
         }
     }
@@ -51,16 +46,15 @@ public class PlayerInteract : PlayerBehaviour
     [SerializeField] Transform hand;
     GameObject currentHoldingObject;
     bool isHolding = false;
-    void PickUp()
-    {
-        if (Physics.Raycast(player.Camera.camera.transform.position, player.Camera.camera.transform.forward, out hit))
-        {
-            if (hit.transform.gameObject.layer == 8)
-            {
+    void PickUp(){
+        if (Physics.Raycast(player.Camera.camera.transform.position, player.Camera.camera.transform.forward, out hit)){
+            if (hit.transform.gameObject.layer == 8){
                 if (Input.GetKeyDown(KeyCode.Z) && !isHolding && hit.transform.gameObject.GetComponent<PhysicsInteractibles>() != null)
                 {
                     currentHoldingObject =  hit.transform.gameObject;
-                    currentHoldingObject.GetComponent<PhysicsInteractibles>().isHold = true;
+                    PhysicsInteractibles physics = currentHoldingObject.GetComponent<PhysicsInteractibles>();
+                    physics.isHold = true;
+                    physics.num_of_holds++;
                     isHolding = true;
                     timeSinceLastInteract = 0f;
                 }
@@ -70,8 +64,7 @@ public class PlayerInteract : PlayerBehaviour
 
     void Holding()
     {
-        if (isHolding)
-        {
+        if (isHolding){
             currentHoldingObject.transform.position = hand.position;
             currentHoldingObject.transform.rotation = Quaternion.Euler(hand.transform.eulerAngles.x, hand.transform.eulerAngles.y, hand.transform.eulerAngles.z);
             if (Input.GetKeyDown(KeyCode.Z) && timeSinceLastInteract > .4f)
@@ -82,27 +75,11 @@ public class PlayerInteract : PlayerBehaviour
         }
     }
 
-    void GetVar()
-    {
-        if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "health")
-        {
-            hit.transform.gameObject.GetComponent<HealthModifier>().OnPickUp();
-        }
-        else if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "door")
-        {
-            hit.transform.gameObject.GetComponent<Door>().OnPickUp();
-        }
-        else if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "ammo")
-        {
-            hit.transform.gameObject.GetComponent<AmmoModifier>().OnPickUp();
-        }
-        else if(hit.transform.gameObject.GetComponent<Interactables>().data.type == "Weapon")
-        {
-            hit.transform.gameObject.GetComponent<Weapon_Interactables>().OnPickUp();
-        }
-        else
-        {
-            return;
+
+    void Pick(){
+        if(hit.transform.gameObject.GetComponent<InteractablesBehaviour>() != null){
+            InteractablesBehaviour behaviour = hit.transform.gameObject.GetComponent<InteractablesBehaviour>();
+            behaviour.OnPickUp();
         }
     }
 }

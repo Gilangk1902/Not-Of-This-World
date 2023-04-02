@@ -22,7 +22,9 @@ public class Movement : PlayerBehaviour
         DashVelocity();
 
         if(timeSinceLastDash > 3){
-            dashCount--;
+            if(dashCount>0){
+                dashCount--;
+            }
             timeSinceLastDash = 0;
         }
 
@@ -44,7 +46,7 @@ public class Movement : PlayerBehaviour
     }
 
     bool isDashing = false;
-    int dashCount = 0;
+    public int dashCount = 0;
     bool setAxisDashOnetime = false;
     Vector3 dashDirection;
     float dashCooldown = 2f;

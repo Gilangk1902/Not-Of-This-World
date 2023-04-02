@@ -19,7 +19,7 @@ public class Weapon_Interactables : InteractablesBehaviour
     public override void OnPickUp()
     {
         index = status.currentWeapon;
-        if(inventory.data_slot1.name != names){
+        if(inventory.slot1.GetName() != names){
             inventory.ChangeWeapon(index, names, data);
             Destroy(gameObject);
         }

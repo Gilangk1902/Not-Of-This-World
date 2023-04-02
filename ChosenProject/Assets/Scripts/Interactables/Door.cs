@@ -19,6 +19,7 @@ public class Door : InteractablesBehaviour
     }
     public override void OnPickUp()
     {
+        rotating = true;
         if (isClosed)
         {
             OpenDoor();
@@ -29,17 +30,18 @@ public class Door : InteractablesBehaviour
         }
     }
 
+    private float timeCount = 0f;
+    public bool rotating = false;
     private void OpenDoor()
     {
-        Debug.Log("Open");
-        doorObject.transform.Rotate(0, 90, 0, Space.Self);
+        transform.Rotate(0,90,0, Space.Self);
         isClosed = false;
     }
 
     private void CloseDoor()
     {
-        Debug.Log("Close");
-        doorObject.transform.Rotate(0, -90, 0, Space.Self);
+        transform.Rotate(0,-90,0, Space.Self);
         isClosed = true;
     }
 }
+    

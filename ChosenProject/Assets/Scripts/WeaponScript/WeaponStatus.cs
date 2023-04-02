@@ -34,15 +34,24 @@ public class WeaponStatus : WeaponBehaviour
 
     public void Reload(){
         if(Input.GetKeyDown(KeyCode.R)){
-            if(weapon.data.ammoInMag < weapon.data.magSize && !isSwitching && !weapon.shoot.isShooting){
+            if(weapon.data.ammoInMag < weapon.data.magSize && !isSwitching && !weapon.shoot.isShooting && weapon.data.ammoInInventory!=0){
                 isReloading = true;
                 Invoke("FillAmmo", weapon.data.reloadTime);
             }
         }
     }
     public void FillAmmo(){
-        weapon.data.ammoInInventory -= (weapon.data.magSize-weapon.data.ammoInMag);
-        weapon.data.ammoInMag = weapon.data.magSize;
+        int ammountNeedToFill = weapon.data.magSize - weapon.data.ammoInMag;
+        int available = weapon.data.ammoInInventory;
+        if(available >= ammountNeedToFill){
+            weapon.data.ammoInInventory -= ammountNeedToFill;
+            weapon.data.ammoInMag += ammountNeedToFill;
+        }
+        else{
+            weapon.data.ammoInInventory = 0;
+            weapon.data.ammoInMag += available;
+        }
+        
         isReloading = false;
     }
     private KeyCode[] keyCodes = {
@@ -62,11 +71,11 @@ public class WeaponStatus : WeaponBehaviour
 
     public void Switch()
     {
-        if (currentWeapon == 0 && weapon.inventory.obj_slot1 != null)
+        if (currentWeapon == 0 && weapon.inventory.slot1.GetName() != null)
         {
-            weapon.data = weapon.inventory.data_slot1;
-            weapon.anim.ChangeTo(weapon.inventory.anim_slot1);
-            ChangeModel(weapon.inventory.obj_slot1);
+            weapon.data = weapon.inventory.slot1.GetData();
+            weapon.anim.ChangeTo(weapon.inventory.slot1.GetName());
+            ChangeModel(weapon.inventory.slot1.GetName());
             timeSinceLastSwitch = 0;
             isSwitching = true;
 

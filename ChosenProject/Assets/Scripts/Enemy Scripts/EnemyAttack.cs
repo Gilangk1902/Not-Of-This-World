@@ -30,7 +30,6 @@ public class EnemyAttack : EnemyBehaviour
         if (enemy.radar.inAttackRange && !oneTime_shoot && !enemy.movement.isMoving)
         {
             isAttacking = true;
-            enemy.movement.isMoving = false;
             if(enemy.data.type == "Melee")
             {
                 StartCoroutine(Melee_Atk());
