@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public EnemyInventory inventory;
     public GravityPull gravityPull;
     public EnemyAi AI;
+    public EnemyAnim anim;
+    public EnemyStatus status;
     [SerializeField] private EnemyData data;
 
     public bool isGrounded;
@@ -18,6 +20,7 @@ public class Enemy : MonoBehaviour
     public bool isMoving = false;
     public bool isAttacking = false;
     public bool hasAttack = false;
+    public bool isReloading = false;
 
     public float timeSinceLastAttack = 0f;
 
@@ -32,11 +35,13 @@ public class Enemy : MonoBehaviour
     private void Awake() {
         gravityPull.enemy = this;
         AI.enemy = this;
+        anim.enemy = this;
+        status.enemy = this;
 
         player = GameObject.Find("Player");
         
         stat = new EnemyStat(data.movementSpeed, (int)data.health, data.delayAtk, (int)data.burstSize, data.burstDelay, data.coolDownAttk);
-        inventory = new EnemyInventory(data.ammo, 50);
+        inventory = new EnemyInventory(data.ammo, 4);
 
         agent.enabled = false;
     }

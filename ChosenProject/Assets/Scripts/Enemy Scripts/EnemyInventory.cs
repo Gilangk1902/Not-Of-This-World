@@ -11,4 +11,6 @@ public class EnemyInventory
         this.magsize = magsize;
         this.ammo = ammo;
     }
+
+    
 }
