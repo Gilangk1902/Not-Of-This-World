@@ -1,54 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
-    public Transform eye;
-    public Transform feet;
-    public bool spotPlayer;
-    public bool provoked;
+    public EnemyStat stat;
+    public EnemyInventory inventory;
+    public GravityPull gravityPull;
+    public EnemyAi AI;
+    [SerializeField] private EnemyData data;
+
     public bool isGrounded;
-    public float health;
+    public bool isSpotPlayer;
+    public bool isAgitated;
+    public bool inAttackrange;
+    public bool inChaseRange;
+    public bool isMoving = false;
+    public bool isAttacking = false;
+    public bool hasAttack = false;
+
+    public float timeSinceLastAttack = 0f;
+
+    public Transform feet;
+    public Transform atkTransform;
     public LayerMask groundMask;
     public LayerMask playerMask;
+    public NavMeshAgent agent;
 
-    public EnemyData data;
-    public EnemyMovement movement;
-    public EnemyVision vision;
-    public EnemyRadar radar;
-    public EnemyAnimator anim;
-    public EnemyStatus status;
-    public EnemyAttack attack;
+    public GameObject player;
+    public GameObject atkObj;
+    private void Awake() {
+        gravityPull.enemy = this;
+        AI.enemy = this;
 
-    void Awake()
-    {
-        movement.enemy = this;
-        provoked = false;
-        vision.enemy = this;
-        radar.enemy = this;
-        anim.enemy = this;
-        health = 100f;
-        status.enemy = this;
-        attack.enemy = this;
-        movement.agent.enabled = false;
-        isGrounded = false;
-    }
-    void Update()
-    {
-        Die();
-        isGrounded = Physics.CheckSphere(feet.position, .4f, groundMask);
+        player = GameObject.Find("Player");
+        
+        stat = new EnemyStat(data.movementSpeed, (int)data.health, data.delayAtk, (int)data.burstSize, data.burstDelay, data.coolDownAttk);
+        inventory = new EnemyInventory(data.ammo, 50);
+
+        agent.enabled = false;
     }
 
-    void Die(){
-        if(health <= 0f){
-            Destroy(gameObject);
+    RaycastHit hitInfo;
+    private void Update() {
+        isGrounded = Physics.CheckSphere(feet.position, .1f, groundMask);
+        inAttackrange = Physics.CheckSphere(transform.position, 8f, playerMask);
+        inChaseRange = Physics.CheckSphere(transform.position, 25f, playerMask);
+        isSpotPlayer = Physics.SphereCast(transform.position, 5f, transform.forward, out hitInfo, 100f, playerMask);
+
+        if(inChaseRange){
+            isAgitated = true;
+        }
+        if(isGrounded){
+            agent.enabled = true;
+        }
+
+        timeSinceLastAttack+=Time.deltaTime;
+        if(timeSinceLastAttack > stat.attackCoolDown){
+            hasAttack = false;
         }
     }
-
-    
 }
- public abstract class EnemyBehaviour : MonoBehaviour
-{
-    [HideInInspector] public Enemy enemy;
+
+public abstract class EnemyBehaviour : MonoBehaviour{
+    [HideInInspector]public Enemy enemy;
 }

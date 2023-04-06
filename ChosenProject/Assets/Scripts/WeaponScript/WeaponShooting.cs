@@ -49,9 +49,9 @@ public class WeaponShooting : WeaponBehaviour
                 RaycastHit hit;
                 if(Physics.Raycast(muzzleBarrel.position, muzzleBarrel.forward, out hit)){
                     if(hit.transform.gameObject.layer == 7){
-                        EnemyStatus hitStatus = hit.collider.gameObject.GetComponent<EnemyStatus>();
-                        hitStatus.TakeDamage(weapon.data.damage);
-                        hitMarker.SetActive(true);
+                        //EnemyStatus hitStatus = hit.collider.gameObject.GetComponent<EnemyStatus>();
+                        //hitStatus.TakeDamage(weapon.data.damage);
+                        //hitMarker.SetActive(true);
                     }
                     if(hit.transform.gameObject.layer == 8){
                         if(hit.collider.gameObject.GetComponent<Destructables>()!=null){

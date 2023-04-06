@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4533a3390554d8d4e96d41245827ab17, type: 3}
   m_Name: HellGruntSpawner
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 8327556184416520118, guid: bac9b88708f872040abc863f120f7ff1, type: 3}
+  objectToSpawn: {fileID: 0}
   maxNumOfSpawn: 1
   radius: 40

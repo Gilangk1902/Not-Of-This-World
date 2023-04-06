@@ -2,73 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class EnemyMovement : EnemyBehaviour
+
+public class EnemyMovement : MonoBehaviour
 {
-    public Vector3 runTo;
-    public Transform playerLocation;
-    Vector3 lastSeenPlayerLocation;
-    Vector3 randomRunTo;
-    public NavMeshAgent agent;
-    public bool isMoving;
-    
-    void Start()
-    {
-        runTo = transform.position;
-        playerLocation = GameObject.Find("Player").transform;
-        agent.speed = enemy.data.movementSpeed;
-    }
-    void Update()
-    {
-        FindPlayerLocation();
-        Gravity();
-        if(enemy.radar.inAttackRange || enemy.attack.isReloading || enemy.attack.isAttacking){
-            agent.destination = transform.position;
-            isMoving = false;
-        }
-        else if(enemy.radar.inChaseRange && !enemy.radar.inAttackRange && enemy.provoked && !enemy.attack.isAttacking){
-            if(!enemy.attack.isAttacking && !enemy.attack.isReloading){
-                WalkTo();
-            }
-        }
-    }
-    public void WalkTo()
-    {
-        runTo = lastSeenPlayerLocation;
-        agent.destination = runTo;
-        isMoving = true;
-    }
-    public void SetRandomPosition()
-    {
-        float x, y, z;
-        x = Random.Range(-10, 10);
-        y = Random.Range(-10, 10);
-        z = Random.Range(-10, 10);
-
-        randomRunTo = new Vector3(x,0,z);
-        runTo = randomRunTo;
-    }
-    
-    public void FindPlayerLocation()
-    {
-        if (enemy.spotPlayer)
-        {
-            lastSeenPlayerLocation = playerLocation.position;
-        }
+    public static void MoveForward(Transform enemy, float speed){
+        enemy.position += enemy.forward*speed*Time.deltaTime;
     }
 
-    Vector3 velocity;
-    float gravity = -9.807f;
-    void Gravity()
-    {
-        if (!agent.enabled && !enemy.isGrounded)
-        {
-            velocity.y += gravity/4 * Time.deltaTime;
-            transform.position += new Vector3(0, velocity.y, 0);
-        }
-        else if (enemy.isGrounded)
-        {
-            velocity.y = 0f;
-            agent.enabled = true;
-        }
+    public static void MoveTo(NavMeshAgent agent, Vector3 target, float speed){
+        agent.speed = speed;
+        agent.destination = target;
+    }
+
+    public static void StandStill(NavMeshAgent agent ,Transform enemy){
+        agent.destination = enemy.position;
     }
 }
